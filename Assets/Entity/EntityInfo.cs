@@ -7,6 +7,7 @@ public class EntityInfo : MonoBehaviour
     public float eMoveSpeed;
     public int eHP;
     public int eTeam;
+    public int eDamage;
     public float ennAtckSpeed;
     public float ennDetecRange;
     public int ennDamage;
@@ -17,5 +18,6 @@ public class EntityInfo : MonoBehaviour
         eMoveSpeed = player_SO.eMoveSpeed;
         eHP = player_SO.eHP;
         eTeam = player_SO.eTeam;
+        eDamage = player_SO.eDamage;
     }
 }

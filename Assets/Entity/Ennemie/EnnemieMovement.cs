@@ -13,6 +13,8 @@ public class EnnemieMovement : MonoBehaviour
     {
         moveSpeed = ennemie_SO.eMoveSpeed;
         stoppingDistance = ennemie_SO.ennStoppingDistance;
+
+        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     private void Update()
@@ -34,7 +36,7 @@ public class EnnemieMovement : MonoBehaviour
             // Vérifier si l'ennemi est assez loin du joueur pour se déplacer
             if (Vector3.Distance(transform.position, player.position) > stoppingDistance)
             {
-                ennemieRB.linearVelocity = transform.TransformDirection(direction * moveSpeed * Time.deltaTime);
+                ennemieRB.linearVelocity = transform.TransformDirection(direction * moveSpeed * Time.fixedDeltaTime);
                 canAttackB = false;
                 gameObject.GetComponent<EnnemieAttack>().canAttackB = canAttackB;
             }

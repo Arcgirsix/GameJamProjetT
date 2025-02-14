@@ -9,15 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d26331bfad7bdee4e96ba34090dee125, type: 3}
-  m_Name: TrashMob
+  m_Script: {fileID: 11500000, guid: b923d074fde613c4b9d009284cf959fe, type: 3}
+  m_Name: MagicWand
   m_EditorClassIdentifier: 
-  eName: TrashMob
-  eMoveSpeed: 200
-  eHP: 500
-  eTeam: 2
-  eDamage: 0
-  ennAtckSpeed: 10
-  ennDetecRange: 10000
-  ennDamage: 50
-  ennStoppingDistance: 5
+  damage: 0
+  atckSpeed: 50
+  size: 1
+  range: 1
+  team: 1
+  weaponType: 1

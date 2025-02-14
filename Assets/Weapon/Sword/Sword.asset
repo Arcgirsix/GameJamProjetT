@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Sword
   m_EditorClassIdentifier: 
   damage: 50
-  atckSpeed: 100
-  size: 50
-  range: 2
+  atckSpeed: 1
+  size: 1
+  range: 10
   team: 1
+  weaponType: 0

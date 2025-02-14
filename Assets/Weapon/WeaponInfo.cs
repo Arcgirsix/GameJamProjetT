@@ -10,6 +10,9 @@ public class WeaponInfo : MonoBehaviour
     public float wSize;
     public float wRange;
     public int wTeam;
+    public int wWeaponType;
+    public bool isSword = false;
+    public bool isMagicWand = false;
 
     private void Awake()
     {
@@ -18,5 +21,14 @@ public class WeaponInfo : MonoBehaviour
         wSize = weapon_SO.size;
         wRange = weapon_SO.range;
         wTeam = weapon_SO.team;
+        wWeaponType = weapon_SO.weaponType;
+    }
+
+    private void Start()
+    {
+        if (wDamage == 0)
+        {
+            gameObject.GetComponent<PolygonCollider2D>().enabled = false;
+        }
     }
 }

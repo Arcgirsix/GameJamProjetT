@@ -4,26 +4,46 @@ public class PlayerCollider : MonoBehaviour
 {
     private int eHP;
 
+    [SerializeField] private float timer;
+    [SerializeField] private float delay;
+    [SerializeField] private bool canBeHit;
+
     private void Awake()
     {
-        gameObject.GetComponentInParent<EntityInfo>().eHP = eHP;
+        eHP = gameObject.GetComponentInParent<EntityInfo>().eHP;
+    }
+
+    private void Update()
+    {
+        if (!canBeHit)
+        {
+            if (delay < timer)
+            {
+                delay += Time.fixedDeltaTime;
+                return;
+            }
+            canBeHit = true;
+            delay = 0;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("aaaaaaaaaaaaaaaaaaaaa");
-        gameObject.GetComponentInParent<EntityInfo>().eHP = eHP;
-        AttackInfo attackInfo = collision.gameObject.GetComponent<AttackInfo>();
-        Debug.Log("ccccccccccccccccccccccccccccccccccccc");
-        if (collision.gameObject.GetComponent<AttackInfo>())
+        if (canBeHit)
         {
-            Debug.Log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
-            eHP -= attackInfo.aDamage;
-            gameObject.GetComponentInParent<EntityInfo>().eHP = eHP;
-            if (eHP <= 0)
+            eHP = gameObject.GetComponentInParent<EntityInfo>().eHP;
+            AttackInfo attackInfo = collision.gameObject.GetComponent<AttackInfo>();
+            if (collision.gameObject.GetComponent<AttackInfo>())
             {
-                Destroy(gameObject);
+                Debug.Log("bbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+                eHP -= attackInfo.aDamage;
+                if (eHP <= 0)
+                {
+                    Destroy(gameObject);
+                }
+                gameObject.GetComponentInParent<EntityInfo>().eHP = eHP;
             }
+            canBeHit = false;
         }
     }
 }

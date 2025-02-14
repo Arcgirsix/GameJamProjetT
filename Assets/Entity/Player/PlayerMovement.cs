@@ -12,8 +12,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Vector2 moveDirPostCalc;
     public float dashSpeed;
     public E_Player_SO player_SO;
-    InputAction dashAction;
-    InputAction moveDirAction;
+    public InputAction dashAction;
+    public InputAction moveDirAction;
     public bool canDash = true;
     public bool canMove = true;
     public float dashTimer = 5;
@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+       
        if (dashAction.ReadValue<float>() > 0 && canDash)
         {
             Dash();
@@ -40,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (!canDash && dashDelay < dashTimer)
         {
-            dashDelay += Time.deltaTime;
+            dashDelay += Time.fixedDeltaTime;
             if (dashDelay >= dashTimer)
             {
                 canDash = true;
@@ -54,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (!canMove && moveDelay < moveTimer)
         {
-            moveDelay += Time.deltaTime;
+            moveDelay += Time.fixedDeltaTime;
             if (moveDelay >= moveTimer) 
             { 
                 canMove = true;
@@ -65,7 +66,7 @@ public class PlayerMovement : MonoBehaviour
     private void Move()
     {
         moveDir = moveDirAction.ReadValue<Vector2>();
-        moveDirPostCalc = moveDir * moveSpeed * Time.deltaTime;
+        moveDirPostCalc = moveDir * moveSpeed * Time.fixedDeltaTime;
 
         Vector2 playerVelocity = new Vector2(moveDirPostCalc.x, moveDirPostCalc.y);
         playerRB.linearVelocity = transform.TransformDirection(playerVelocity);

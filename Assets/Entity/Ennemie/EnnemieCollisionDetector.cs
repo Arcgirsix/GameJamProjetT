@@ -4,47 +4,88 @@ using UnityEngine;
 
 public class EnnemieCollisionDetector : MonoBehaviour
 {
-    private int wTeam = 0;
-    private int eTeam = 0;
     private int eHP;
+    [SerializeField] private float timer;
+    [SerializeField] private float delay;
+    [SerializeField] private bool canBeHit;
 
     private void Awake()
     {
-        gameObject.GetComponentInParent<EntityInfo>().eHP = eHP;
+         eHP = gameObject.GetComponentInParent<EntityInfo>().eHP;
+    }
+
+    private void Update()
+    {
+        if (canBeHit == false)
+        {
+            if (delay < timer)
+            {
+                delay += Time.fixedDeltaTime;
+                return;
+            }
+            canBeHit = true;
+            delay = 0;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        gameObject.GetComponentInParent<EntityInfo>().eHP = eHP;
-        EntityInfo entityInfo = collision.gameObject.GetComponent<EntityInfo>();
-        WeaponInfo weaponInfo = collision.gameObject.GetComponent<WeaponInfo>();
-        if (collision.gameObject.GetComponent<WeaponInfo>())
-        {
-            int wTeam = weaponInfo.wTeam;
 
-            if (collision != null && (eTeam != 1 || wTeam != 1))
+        if (canBeHit)
+        {
+            eHP = gameObject.GetComponentInParent<EntityInfo>().eHP;
+
+            if (collision.gameObject.GetComponent<WeaponInfo>())
             {
-                eHP -= weaponInfo.wDamage;
-                gameObject.GetComponentInParent<EntityInfo>().eHP = eHP;
-                if (gameObject.GetComponentInParent<EntityInfo>().eHP <= 0)
+                WeaponInfo weaponInfo = collision.gameObject.GetComponent<WeaponInfo>();
+                int wTeam = weaponInfo.wTeam;
+
+                if (collision != null && (wTeam == 1))
                 {
-                    Destroy(gameObject);
+                    canBeHit = false;
+                    eHP -= weaponInfo.wDamage;
+                    if (eHP <= 0)
+                    {
+                        Destroy(gameObject);
+                    }
+                    gameObject.GetComponentInParent<EntityInfo>().eHP = eHP;
+                    return;
+                }
+            }
+            else if (collision.gameObject.GetComponent<EntityInfo>())
+            {
+                EntityInfo entityInfo = collision.gameObject.GetComponent<EntityInfo>();
+                int eTeam = entityInfo.eTeam;
+
+                if (collision != null && (eTeam == 1))
+                {
+                    canBeHit = false;
+                    eHP -= entityInfo.eDamage;
+                    if (eHP <= 0)
+                    {
+                        Destroy(gameObject);
+                    }
+                    gameObject.GetComponentInParent<EntityInfo>().eHP = eHP;
+                    return;
+                }
+            }
+
+            else if (collision.gameObject.GetComponent<MagicProjectil>())
+            {
+                MagicProjectil magicProjectil = collision.gameObject.GetComponent<MagicProjectil>();
+                if (collision != null)
+                {
+                    canBeHit = false;
+                    eHP -= magicProjectil.mDamage;
+                    if (eHP <= 0)
+                    {
+                        Destroy(gameObject);
+                    }
+                    gameObject.GetComponentInParent<EntityInfo>().eHP = eHP;
+                    return;
                 }
             }
         }
-        else if (collision.gameObject.GetComponent<EntityInfo>())
-        {
-            int eTeam = entityInfo.eTeam;
-
-            if (collision != null && (eTeam != 1 || wTeam != 1))
-            {
-                entityInfo.eHP = entityInfo.eHP - weaponInfo.wDamage;
-                gameObject.GetComponentInParent<EntityInfo>().eHP = entityInfo.eHP;
-                if (entityInfo.eHP < 0)
-                {
-                    Destroy(gameObject);
-                }
-            }
-        }
+        
     }
 }

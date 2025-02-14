@@ -197,7 +197,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Slime_Vert_Idle_Deplacement_0: -8986797483913344607
+      Slime_Vert_Idle_Deplacement_1: -5412648687409181880
+      Slime_Vert_Idle_Deplacement_2: -8172348903761619000
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,4 +1,6 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class WeaponGestion : MonoBehaviour
 {
@@ -9,6 +11,10 @@ public class WeaponGestion : MonoBehaviour
     public float maxDistance = 5f; // Distance maximale entre l'empty object et le personnage
     private float weaponRotation;
     public float minDistance = 5f;
+    public int wWeaponType;
+    public bool isSword = false;
+    public bool isMagicWand = false;
+    InputAction shoot;
 
 
     private Camera cam;
@@ -18,6 +24,21 @@ public class WeaponGestion : MonoBehaviour
         moveSpeed = weapon_SO.atckSpeed;
         maxDistance = weapon_SO.range;
         cam = Camera.main; // Récupère la caméra principale
+        shoot = InputSystem.actions.FindAction("RMB");
+    }
+
+    private void Start()
+    {
+        wWeaponType = gameObject.GetComponentInChildren<WeaponInfo>().wWeaponType;
+        if (wWeaponType == 0)
+        {
+            isSword = true;
+        }
+
+        if (wWeaponType == 1)
+        {
+            isMagicWand = true;
+        }
     }
 
     void Update()
@@ -52,6 +73,18 @@ public class WeaponGestion : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, mousePosition, moveSpeed* Time.deltaTime);
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
 
+        //Debug.Log(shoot.ReadValue<float>());
 
+        if (isMagicWand && shoot.ReadValue<float>() == 0f)
+        {
+            gameObject.GetComponent<Spell>().enabled = false;
+            return;
+        }
+
+        if (isMagicWand)
+        {
+            gameObject.GetComponent<Spell>().enabled = true;
+            gameObject.GetComponent<Spell>().projRotation = Quaternion.Euler(new Vector3(0, 0, angle)); ;
+        }
     }
 }

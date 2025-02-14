@@ -12,8 +12,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Vector2 moveDirPostCalc;
     public float dashSpeed;
     public E_Player_SO player_SO;
-    InputAction dashAction;
-    InputAction moveDirAction;
+    public InputAction dashAction;
+    public InputAction moveDirAction;
     public bool canDash = true;
     public bool canMove = true;
     public float dashTimer = 5;
@@ -30,6 +30,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
+
        if (dashAction.ReadValue<float>() > 0 && canDash)
         {
             Dash();

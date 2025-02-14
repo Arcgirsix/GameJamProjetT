@@ -9,7 +9,7 @@ public class EnnemieAttack : MonoBehaviour
     {
         if (canAttackB)
         {
-            GameObject go = Instantiate(attackPrefab);
+            Instantiate(attackPrefab);
         }
     }
 }

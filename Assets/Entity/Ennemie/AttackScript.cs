@@ -34,7 +34,7 @@ public class AttackScript : MonoBehaviour
     {
         if (canDestroyDelay < lifetime)
         {
-            canDestroyDelay += Time.deltaTime;
+            canDestroyDelay += Time.fixedDeltaTime;
             return;
         }
         if (canDestroyDelay >= lifetime)

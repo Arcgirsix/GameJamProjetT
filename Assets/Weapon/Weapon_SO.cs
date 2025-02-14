@@ -8,4 +8,5 @@ public class Weapon_SO : ScriptableObject
     public float size;
     public float range;
     public int team;
+    public int weaponType;
 }

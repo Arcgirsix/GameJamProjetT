@@ -103,9 +103,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectileSpeed: 10
-  explosionEffect: {fileID: 0}
   explosionRadius: 5
   explosionForce: 10
+  mDamage: 50
+  mCollider: {fileID: 6271692105278559419}
 --- !u!50 &4947653547130634714
 Rigidbody2D:
   serializedVersion: 5
@@ -131,7 +132,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 0
 --- !u!58 &6271692105278559419
 CircleCollider2D:

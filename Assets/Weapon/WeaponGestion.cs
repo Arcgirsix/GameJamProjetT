@@ -15,7 +15,7 @@ public class WeaponGestion : MonoBehaviour
     public bool isSword = false;
     public bool isMagicWand = false;
     InputAction shoot;
-
+    Quaternion lastRota;
 
     private Camera cam;
 
@@ -68,14 +68,18 @@ public class WeaponGestion : MonoBehaviour
         }
 
 
-
         // Déplace l'empty object vers la position de la souris
-        transform.position = Vector3.MoveTowards(transform.position, mousePosition, moveSpeed* Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, mousePosition, moveSpeed * Time.fixedDeltaTime);
+        if (transform.position == Input.mousePosition)
+        {
+            transform.rotation = lastRota;
+            return;
+        }
+
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        lastRota = Quaternion.Euler(new Vector3(0, 0, angle));
 
-        //Debug.Log(shoot.ReadValue<float>());
-
-        if (isMagicWand && shoot.ReadValue<float>() == 0f)
+        if (isMagicWand && shoot.ReadValue<float>() != 1f)
         {
             gameObject.GetComponent<Spell>().enabled = false;
             return;
@@ -86,5 +90,10 @@ public class WeaponGestion : MonoBehaviour
             gameObject.GetComponent<Spell>().enabled = true;
             gameObject.GetComponent<Spell>().projRotation = Quaternion.Euler(new Vector3(0, 0, angle)); ;
         }
+
+
+        //Debug.Log(shoot.ReadValue<float>());
+
+
     }
 }

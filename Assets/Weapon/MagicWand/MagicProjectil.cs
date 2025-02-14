@@ -8,6 +8,10 @@ public class MagicProjectil : MonoBehaviour
     public int mDamage;
     [SerializeField] private CircleCollider2D mCollider;
 
+    [SerializeField] private float delay;
+    [SerializeField] private float timer = 0.2f;
+    public bool hasHitTheSecondTower = false;
+
     private Rigidbody2D rb;
 
     void Start()
@@ -15,15 +19,41 @@ public class MagicProjectil : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         rb.linearVelocity = transform.right * projectileSpeed; // D�place le projectile selon la direction de l'objet
     }
-    
-    void OnCollisionEnter2D(Collision2D collision)
+
+    private void Update()
     {
-        // Si le projectile touche un ennemi
-        if (collision.gameObject.GetComponent<EntityInfo>().eTeam != 1)
+        if (hasHitTheSecondTower)
         {
-            Explode(collision.transform.position); // D�clenche l'explosion � la position de la collision
+            if (delay < timer)
+            {
+                delay += Time.fixedDeltaTime;
+                return;
+            }
             Destroy(gameObject); // D�truit le projectile
         }
+        
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        // Si le projectile touche un ennemi
+        if (collision.gameObject.GetComponent<WeaponInfo>())
+        {
+            mCollider.radius = explosionRadius;
+            hasHitTheSecondTower = true;
+        }
+        if (collision.gameObject.GetComponent<EntityInfo>())
+        {
+            EntityInfo entityInfo = collision.gameObject.GetComponent<EntityInfo>();
+
+            if (entityInfo.eTeam == 1)
+            {
+                return;
+            }
+            mCollider.radius = explosionRadius;
+            hasHitTheSecondTower = true;
+        }
+        
     }
 
     void Explode(Vector2 explosionPosition)

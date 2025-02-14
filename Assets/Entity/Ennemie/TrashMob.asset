@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eName: TrashMob
   eMoveSpeed: 200
-  eHP: 2147483647
+  eHP: 500
   eTeam: 2
+  eDamage: 0
   ennAtckSpeed: 10
   ennDetecRange: 10000
   ennDamage: 50
